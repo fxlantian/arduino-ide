@@ -8,18 +8,18 @@
 |-ANN_TEST_FINAL.ino: 在Arduino IDE中实现数字识别的代码  
 
 |-ppulib  
-	|-output  
-        |-my.cpp.o: Arduino编译生成的.o文件  
+    |-output  
+        |-my.cpp.o: Arduino编译生成的.o文件  
     |-upload   
-        |-run: PhyBoard开发板上传代码所需的可执行程序  
+        |-run: PhyBoard开发板上传代码所需的可执行程序  
     |-xxx.a: 有五个.a文件 是Arduino_lib下的core_libs和separate_libs以及bench_lib, string_lib, bench_lib编译生成的静态链接库,Arduino IDE链接过程中用到           
-    |-preprocess: Arduino IDE对编写的ino代码预处理生成.cpp文件 preprocess的作用是在对应的.cpp开头添加四行代码  
-                  extern "C"{  
-                    #include "int.h"  
-                  }  
-                  #include "main.cpp"  
-    |-preprocess.c: preprocess的源代码  
-    |-testANN.h: 所有ann内核配置数据、测试数据的头文件  
+    |-preprocess: Arduino IDE对编写的ino代码预处理生成.cpp文件 preprocess的作用是在对应的.cpp开头添加四行代码  
+                    extern "C"{  
+                      #include "int.h"  
+                    }    
+                    #include "main.cpp"  
+    |-preprocess.c: preprocess的源代码  
+    |-testANN.h: 所有ann内核配置数据、测试数据的头文件  
 
 |-libs/: PhyBoard所需的库文件  
 
@@ -32,4 +32,4 @@
 连接好板子，编写好程序后点击上传按钮即可  
 
 # 注意
-上传程序的USB0 必须是USB0
+上传程序的USB 必须是USB0
