@@ -1,0 +1,1 @@
+int ljh(int x);
