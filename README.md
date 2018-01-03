@@ -1,18 +1,19 @@
 # 文件介绍 
-（目前仅限于Linux下使用）    
+（目前仅限于Linux下使用）  
+
 |-platform.txt: 描述了ide预处理，编译，链接，上传所用的命令  
 
 |-boards.txt: 描述了开发板的upload以及build过程所需参数  
 
 |-ANN_TEST_FINAL.ino: 在Arduino IDE中实现数字识别的代码  
-    
+
 |-ppulib  
-    |-output  
+	|-output  
         |-my.cpp.o: Arduino编译生成的.o文件  
     |-upload   
         |-run: PhyBoard开发板上传代码所需的可执行程序  
-    |-xxx.a: 有五个.a文件 是Arduino_lib下的core_libs和separate_libs以及bench_lib, string_lib, bench_lib编译生成的静态链接库,Arduino IDE链接过程中用到         
-    |-preprocess: Arduino IDE对编写的ino代码预处理生成.cpp文件 preprocess的作用是在对应的.cpp开头添加四行代码   
+    |-xxx.a: 有五个.a文件 是Arduino_lib下的core_libs和separate_libs以及bench_lib, string_lib, bench_lib编译生成的静态链接库,Arduino IDE链接过程中用到           
+    |-preprocess: Arduino IDE对编写的ino代码预处理生成.cpp文件 preprocess的作用是在对应的.cpp开头添加四行代码  
                   extern "C"{  
                     #include "int.h"  
                   }  
