@@ -1,0 +1,56 @@
+
+name=Arduino AVR Boards
+version=1.6.2
+
+home.path = /home/archer
+sw.path = /home/archer/sw
+toolchain.path = {home.path}/ri5cy_gnu_toolchain
+
+compiler.path={home.path}/ri5cy_gnu_toolchain/install/bin/
+compiler.c.cmd=riscv32-unknown-elf-gcc
+compiler.c.elf.cmd=riscv32-unknown-elf-gcc
+compiler.cpp.cmd=riscv32-unknown-elf-g++
+compiler.objcopy.cmd=riscv32-unknown-elf-objcopy
+compiler.size.cmd=riscv32-unknown-elf-size
+
+recipe.hooks.sketch.prebuild.1.pattern={home.path}/ppulib/preprocess {build.path}/sketch/{build.project_name}.cpp {build.path}/sketch/{build.project_name}-pre.cpp
+
+
+## Compile c++ files
+recipe.cpp.o.pattern={toolchain.path}/install/bin/riscv32-unknown-elf-gcc  -I{sw.path}/libs/sys_lib/inc -I{sw.path}/libs/Arduino_lib/core_libs/inc -I/{sw.path}/libs/Arduino_lib/separate_libs/inc -I{sw.path}/libs/malloc_lib/inc -I{sw.path}/libs/string_lib/inc -I{sw.path}/libs/bench_lib/inc -O3 -m32 -g -m32 -march=IMXpulpv2 -Wa,-march=IMXpulpv2 -mrvc -Wextra -Wall -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -fdata-sections -ffunction-sections -fdiagnostics-color=always -o {build.path}/{build.project_name}.cpp.o -c {build.path}/sketch/{build.project_name}-pre.cpp
+
+recipe.c.o.pattern= echo "recipe.c.o.pattern"
+recipe.ar.pattern= echo "recipe.ar.pattern"
+recipe.c.combine.pattern= echo "recipe.c.combine.pattern"
+ 
+
+## Create output files (.elf .s19 and .txt)
+recipe.objcopy.elf.pattern= {toolchain.path}/install/bin/riscv32-unknown-elf-gcc   -O3 -m32 -g -m32 -march=IMXpulpv2 -Wa,-march=IMXpulpv2 -mrvc -Wextra -Wall -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -fdata-sections -ffunction-sections -fdiagnostics-color=always    -L{sw.path}/ref -Tlink.riscv.ld -nostartfiles -Wl,--gc-sections {build.path}/{build.project_name}.cpp.o {home.path}/ppulib/crt0.riscv.S.o  -o {build.path}/{build.project_name}.elf  {home.path}/ppulib/libArduino_separate.a {home.path}/ppulib/libArduino_core.a {home.path}/ppulib/libbench.a {home.path}/ppulib/libstring.a {home.path}/ppulib/libsys.a 
+
+{toolchain.path}/install/bin/riscv32-unknown-elf-gcc  -O3 -m32 -g -m32 -march=IMXpulpv2 -Wa,-march=IMXpulpv2 -mrvc -Wextra -Wall -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -fdata-sections -ffunction-sections -fdiagnostics-color=always   -L{sw.path}ref -Tlink.riscv.ld -nostartfiles -Wl,--gc-sections {build.path}/{build.project_name}.c.o {home.path}/ppulib/crt0.riscv.S.o  -o  {build.path}/{build.project_name}.elf  -L{toolchain.path}/install/lib/gcc/riscv32-unknown-elf/5.2.0  -L{toolchain.path}/install/lib/gcc  -L{toolchain.path}/install/riscv32-unknown-elf/lib    {home.path}/ppulib/libArduino_separate.a {home.path}/ppulib/libArduino_core.a {home.path}/ppulib/libbench.a {home.path}/ppulib/libstring.a {home.path}/ppulib/libsys.a
+
+recipe.objcopy.s19.pattern=objcopy --output-target=srec --srec-len 1 {build.path}/{build.project_name}.elf {build.path}/{build.project_name}.s19
+
+#"{toolchain.path}/install/bin/riscv32-unknown-elf-objcopy" --output-target=srec --srec-len 1 {build.path}/{build.project_name}.elf {build.path}/{build.project_name}.s19
+
+recipe.objcopy.txt.pattern="{sw.path}/utils/s19toslm.py"  "{build.path}/{build.project_name}.s19"
+
+
+## Compute size
+recipe.size.pattern="{toolchain.path}/install/bin/{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
+recipe.size.regex=^(?:\.text|\.data|\.bootloader)\s+([0-9]+).*
+recipe.size.regex.data=^(?:\.data|\.bss|\.noinit)\s+([0-9]+).*
+recipe.size.regex.eeprom=^(?:\.eeprom)\s+([0-9]+).*
+
+
+## Preprocessor
+preproc.macros.flags=-w -x c++ -E -CC
+recipe.preproc.macros=touch {build.path}/preproc/ctags_target_for_gcc_minus_e.cpp 
+
+recipe.S.o.pattern = echo "recipe.S.o.pattern"
+
+## AVR Uploader/Programmers tools
+tools.avrdude.upload.params.verbose=-v
+tools.avrdude.upload.params.quiet=-q -q
+tools.avrdude.upload.pattern=/home/archer/ppulib/upload/run  /home/archer/spi_stim.txt
+
