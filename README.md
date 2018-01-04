@@ -9,8 +9,7 @@
           |-my.cpp.o: Arduino IDE编译生成的.o文件所存放的位置    
       |-upload/   
           |-run: PhyBoard开发板上传代码所需的可执行程序  
-      |-xxx.a: 有五个.a文件 是Arduino_lib下的core_libs和separate_libs以及bench_lib, string_lib, bench_lib编译生成的静态链接库,
-               Arduino IDE链接过程中用到  
+      |-xxx.a: 有五个.a文件 是Arduino_lib下的core_libs和separate_libs以及bench_lib, string_lib, bench_lib编译生成的静态链接库,Arduino IDE链接过程中用到
       |-preprocess: Arduino IDE对编写的ino代码预处理生成.cpp文件 preprocess的作用是在对应的.cpp开头添加四行代码
                       extern "C"{  
                         #include "int.h"  
