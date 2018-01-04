@@ -6,8 +6,8 @@
 >ANN_TEST_FINAL.ino: 在Arduino IDE中实现数字识别的代码  
 >ppulib/  
   >>output/  
-  >>>my.cpp.o: Arduino编译生成的.o文件  
-  >>
+  >>>my.cpp.o: Arduino IDE编译生成的.o文件所存放的位置  
+  >>
   >>upload/   
   >>>run: PhyBoard开发板上传代码所需的可执行程序  
   >>
